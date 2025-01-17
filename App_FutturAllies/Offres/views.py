@@ -155,7 +155,7 @@ class OfferDetailView(APIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-class OfferApplicationView(APIView):
+class OfferApplicationView(APIView): 
     def post(self, request):
         files = request.FILES.getlist('files')
         uploaded_files = []
@@ -187,11 +187,18 @@ class OfferApplicationView(APIView):
             return Response(application_serializer.data, status=status.HTTP_201_CREATED)
         return Response(application_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    def get(self, request):
-        applications = OfferApplication.objects.all()
+    def get(self, request, pk):
+        applications =get_object_or_404(OfferApplication, pk=pk)
         serializer = OfferApplicationSerializer(applications, many=True)
         return Response(serializer.data)
 
+from rest_framework.generics import ListAPIView
+class OfferApplicationView1(ListAPIView):
+    serializer_class = OfferApplicationSerializer
+
+    def get_queryset(self):
+        offer_id = self.kwargs.get('pk')  # Utilisez `pk` comme une clé de filtre personnalisée
+        return OfferApplication.objects.filter(offer_id=offer_id)
 
 class OfferApplicationDetailView(APIView):
     def get(self, request, pk):

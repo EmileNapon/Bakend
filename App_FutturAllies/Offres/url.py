@@ -3,7 +3,7 @@ from . import views
 from .views import (
     EnterpriseView, EnterpriseDetailView,
     OfferView, OfferDetailView, FileDetailView,
-    OfferApplicationView, OfferApplicationDetailView, FileView
+    OfferApplicationView, OfferApplicationDetailView, FileView, OfferApplicationView1
 )
 
 urlpatterns = [
@@ -25,6 +25,8 @@ urlpatterns = [
     path('files/<int:pk>/', FileDetailView.as_view(), name='file-detail'),
 
     # Routes for OfferApplication
-    path('applications/', OfferApplicationView.as_view(), name='application-list-create'),
+    path('offer-applications/offer/', OfferApplicationView.as_view(), name='application-list-create'),
     path('applications/<int:pk>/', OfferApplicationDetailView.as_view(), name='application-detail'),
+    path('offer-applications/offer/<int:pk>/', OfferApplicationView1.as_view(), name='offer-application-list'),
+
 ]
