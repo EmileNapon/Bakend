@@ -27,6 +27,6 @@ urlpatterns = [
     # Routes for OfferApplication
     path('offer-applications/offer/', OfferApplicationView.as_view(), name='application-list-create'),
     path('applications/<int:pk>/', OfferApplicationDetailView.as_view(), name='application-detail'),
-    path('offer-applications/offer/<int:pk>/', OfferApplicationView1.as_view(), name='offer-application-list'),
+    path('offer-applications/<int:pk>/', OfferApplicationView1.as_view(), name='offer-application-list'),
 
 ]
