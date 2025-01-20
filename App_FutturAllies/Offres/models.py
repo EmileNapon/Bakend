@@ -35,59 +35,73 @@ class Enterprise(models.Model):
         return self.name
 
 
+from django.db import models
+from django.db import models
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
+
 class Offer(models.Model):
-    enterprise = models.ForeignKey(Enterprise, on_delete=models.CASCADE, related_name='offers')
-    title = models.CharField(max_length=255)
-    description = models.TextField()
-    domain = models.CharField(max_length=255)
-    location = models.CharField(max_length=255)
-    salary = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
-    duration = models.PositiveIntegerField(blank=True, null=True)  # Duration in months
     TYPE_CHOICES = [
         ('Job', 'Job'),
         ('Internship', 'Internship'),
         ('Other', 'Other'),
     ]
-    type = models.CharField(max_length=20, choices=TYPE_CHOICES)
-    requirements = models.TextField(blank=True, null=True)
-    responsibilities = models.TextField(blank=True, null=True)
-    education_level = models.CharField(max_length=255, blank=True, null=True)
-    experience_level = models.CharField(max_length=255, blank=True, null=True)
+
     CONTRACT_TYPE_CHOICES = [
-        ('Full-Time', 'Full-Time'),
-        ('Part-Time', 'Part-Time'),
-        ('Internship', 'Internship'),
-        ('Freelance', 'Freelance'),
-        ('Temporary', 'Temporary'),
+        ('CDI', 'CDI'),
+        ('CDD', 'CDD'),
     ]
-    contract_type = models.CharField(max_length=20, choices=CONTRACT_TYPE_CHOICES)
-    benefits = models.TextField(blank=True, null=True)
-    contact_email = models.EmailField()
-    posted_date = models.DateTimeField(auto_now_add=True)
-    expiration_date = models.DateTimeField(blank=True, null=True)
+
     STATUS_CHOICES = [
         ('Open', 'Open'),
         ('Closed', 'Closed'),
         ('Pending', 'Pending'),
     ]
-    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='Open')
-    is_remote = models.BooleanField(default=False)
+
     APPLICATION_MODE_CHOICES = [
         ('Online', 'Online'),
         ('Physical', 'Physical'),
         ('Both', 'Both'),
     ]
-    application_mode = models.CharField(max_length=20, choices=APPLICATION_MODE_CHOICES, default='Online')
-    online_submission = models.BooleanField(default=True)
-    physical_address = models.TextField(blank=True, null=True)
-    is_required_cv_doc = models.BooleanField(default=True)
-    is_required_ml_doc = models.BooleanField(default=False)
-    can_add_others_doc = models.BooleanField(default=False)
-    application_link = models.URLField(blank=True, null=True)
-    additional_info = models.TextField(blank=True, null=True)
+
+    title = models.CharField(max_length=255, verbose_name="Titre de l'offre", null=True)
+    enterprise = models.CharField(max_length=255, verbose_name="Entreprise")
+    enterpriseLocation = models.CharField(max_length=255, verbose_name="Localisation de l'entreprise", null=True)
+    enterWebsite = models.URLField(blank=True, null=True, verbose_name="Site web de l'entreprise")
+    description = models.TextField(verbose_name="Description de l'offre", null=True)
+    domain = models.CharField(max_length=255, verbose_name="Domaine de l'offre", null=True)
+    location = models.CharField(max_length=255, verbose_name="Localisation de l'offre", null=True)
+    salary = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True, verbose_name="Salaire")
+    duration = models.IntegerField(blank=True, null=True, verbose_name="Durée (en mois)")
+    type = models.CharField(max_length=20, choices=TYPE_CHOICES, verbose_name="Type d'offre")
+    requirements = models.TextField(blank=True, null=True, verbose_name="Exigences")
+    responsibilities = models.TextField(blank=True, null=True, verbose_name="Responsabilités")
+    educationLevel = models.CharField(max_length=255, blank=True, null=True, verbose_name="Niveau d'éducation requis")
+    experienceLevel = models.CharField(max_length=255, blank=True, null=True, verbose_name="Niveau d'expérience requis")
+    contractType = models.CharField(max_length=3, choices=CONTRACT_TYPE_CHOICES, default='CDD', verbose_name="Type de contrat")
+    benefits = models.TextField(blank=True, null=True, verbose_name="Avantages")
+    contactEmail = models.EmailField(verbose_name="Email de contact", null=True)
+    status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='Open', verbose_name="Statut de l'offre")
+    isRemote = models.BooleanField(default=False, verbose_name="Télétravail")
+    applicationMode = models.CharField(max_length=10, choices=APPLICATION_MODE_CHOICES, default='Online', verbose_name="Mode de candidature")
+    onlineSubmission = models.BooleanField(default=True, verbose_name="Soumission en ligne")
+    isRequiredCvDoc = models.BooleanField(default=True, verbose_name="CV requis")
+    isRequiredMlDoc = models.BooleanField(default=False, verbose_name="Lettre de motivation requise")
+    canAddOthersDoc = models.BooleanField(default=False, verbose_name="Autres documents autorisés")
+    applicationLink = models.URLField(blank=True, null=True, verbose_name="Lien de candidature")
+    additionalInfo = models.TextField(blank=True, null=True, verbose_name="Informations supplémentaires")
+    createdBy = models.ForeignKey(User, on_delete=models.CASCADE, related_name='offers', verbose_name="Créé par", default='16')
+    postedDate = models.DateTimeField(auto_now_add=True, verbose_name="Date de publication", null=True)
+    updatedAt = models.DateTimeField(auto_now=True, verbose_name="Dernière mise à jour", null=True)
+    expirationDate = models.DateTimeField(blank=True, null=True, verbose_name="Date d'expiration")
 
     def __str__(self):
         return self.title
+
+    class Meta:
+        verbose_name = "Offre"
+        verbose_name_plural = "Offres"
 
 
 class OfferApplication(models.Model):

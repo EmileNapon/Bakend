@@ -48,11 +48,11 @@ INSTALLED_APPS = [
     'Formation',
     'programmeTalent',
     'Offres',
-    'quiz',
+    #'quiz',
     "certificats",
     'corsheaders',
     'rest_framework.authtoken',     ##
-   "imputation" 
+   #"imputation" 
 ]
 
 
@@ -193,11 +193,11 @@ REST_FRAMEWORK = {
     ],
 }
 
-# REST_FRAMEWORK = {
-#     'DEFAULT_PERMISSION_CLASSES': [
-#         'rest_framework.permissions.AllowAny',
-#     ],
-# }
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.AllowAny',
+    ],
+}
 
 
 

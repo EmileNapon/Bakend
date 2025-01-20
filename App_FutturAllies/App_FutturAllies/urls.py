@@ -24,6 +24,6 @@ urlpatterns = [
     path('fidalli/',include('Offres.url')),
     path('fidalli/',include('programmeTalent.url')),
     path('fidalli/',include('certificats.url')),
-    path('meteo/',include('imputation.url')),
-    path('fidalli/',include('quiz.url')),
+   # path('meteo/',include('imputation.url')),
+    #path('fidalli/',include('quiz.url')),
 ]
