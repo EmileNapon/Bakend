@@ -1,5 +1,4 @@
-from django.db import models 
-
+from django.db import models
 
 # from App_FutturAllies.Formation.models import Module
 from Formation.models import Module
