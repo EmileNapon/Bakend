@@ -36,6 +36,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     ROLE_CHOICES = (
         ('apprenant', 'Apprenant'),
         ('employeur', 'Employeur'),
+        ('formateur', 'Formateur')
     )
 
     

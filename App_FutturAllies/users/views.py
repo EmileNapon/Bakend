@@ -28,7 +28,7 @@ class CustomTokenObtainPairView(TokenObtainPairView):
 
 
 @api_view(['GET'])
-@permission_classes([IsAuthenticated])  # Permet seulement aux utilisateurs authentifiés de lister les offres
+#@permission_classes([IsAuthenticated])  # Permet seulement aux utilisateurs authentifiés de lister les offres
 def list_users(request):
     user = CustomUser.objects.all()  # Récupérer toutes les offres
     serializer = UserSerializer(user, many=True)  # Sérialiser les données

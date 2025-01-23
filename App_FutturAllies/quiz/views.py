@@ -91,9 +91,7 @@ def GenerateQuizQuestions(request):
 
 
 def format_quiz_to_json(text):
-    """
-    Transforme un texte brut de quiz en une structure de données prête à être utilisée avec les modèles Django.
-    """
+
     questions = []
     current_question = None
     question_id = 0

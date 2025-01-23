@@ -26,6 +26,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 
+GEMINI_API_KEY=''
+
 SECRET_KEY = 'django-insecure-$@ap%3n)8ae@13y2!)i2flbp3hv1l%c@p3w*srrvr9=vn$sj2_'
 # # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
