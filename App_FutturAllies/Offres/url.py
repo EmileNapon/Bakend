@@ -17,7 +17,7 @@ urlpatterns = [
     path('offers/', OfferView.as_view(), name='offer-list-create'),
     path('offers/<int:pk>/', OfferDetailView.as_view(), name='offer-detail'),
 
-   path('offer-applications/create', OfferApplicationView.as_view(), name='offer-create'),
+#    path('offer-applications/create', OfferApplicationView.as_view(), name='offer-create'),
 
 
 
@@ -25,7 +25,7 @@ urlpatterns = [
     path('files/<int:pk>/', FileDetailView.as_view(), name='file-detail'),
 
     # Routes for OfferApplication
-    path('offer-applications/offer/', OfferApplicationView.as_view(), name='application-list-create'),
+    path('offer-applications', OfferApplicationView.as_view(), name='application-list-create'),
     path('applications/<int:pk>/', OfferApplicationDetailView.as_view(), name='application-detail'),
     path('offer-applications/<int:pk>/', OfferApplicationView1.as_view(), name='offer-application-list'),
 

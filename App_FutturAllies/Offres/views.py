@@ -154,12 +154,17 @@ class OfferDetailView(APIView):
         offer.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
+from rest_framework.response import Response
+from rest_framework import status
+from .models import OfferApplication
 
-class OfferApplicationView(APIView): 
+class OfferApplicationView(APIView):
     def post(self, request):
+        # Récupérer les fichiers envoyés
         files = request.FILES.getlist('files')
         uploaded_files = []
 
+        # Sauvegarde des fichiers
         for file in files:
             file_data = {
                 'title': file.name,
@@ -174,23 +179,33 @@ class OfferApplicationView(APIView):
             else:
                 return Response(file_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+        # Récupérer les données de la candidature
+        offer_id = request.data.get('offerId')
+        candidat_id = request.data.get('candidatId')
+
+        # Vérifier si la combinaison offerId et candidatId existe déjà
+        if OfferApplication.objects.filter(offer_id=offer_id, candidat_id=candidat_id).exists():
+            return Response(
+                {"non_field_errors": ["This candidate has already applied for this offer."]},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        # Créer une nouvelle candidature
         application_data = {
-            'offer_id': request.data.get('offerId'),
-            'candidat_id': request.data.get('candidatId'),
+            'offer_id': offer_id,
+            'candidat_id': candidat_id,
             'message': request.data.get('message'),
             'submitted_documents_ids': uploaded_files,
         }
 
         application_serializer = OfferApplicationSerializer(data=application_data)
+
         if application_serializer.is_valid():
             application_serializer.save()
             return Response(application_serializer.data, status=status.HTTP_201_CREATED)
+        
         return Response(application_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    def get(self, request, pk):
-        applications =get_object_or_404(OfferApplication, pk=pk)
-        serializer = OfferApplicationSerializer(applications, many=True)
-        return Response(serializer.data)
 
 from rest_framework.generics import ListAPIView
 class OfferApplicationView1(ListAPIView):

@@ -127,6 +127,10 @@ class OfferApplication(models.Model):
 
     def __str__(self):
         return f"Application by {self.candidat} for {self.offer}"
+    class Meta:
+        unique_together = ('offer', 'candidat')  # Assure qu'un utilisateur ne peut s'inscrire qu'une seule fois à une formation
+    def __str__(self):
+        return f"{self.candidat} inscrit à {self.offer}"
 
 
 class File(models.Model):

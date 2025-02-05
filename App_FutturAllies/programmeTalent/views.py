@@ -76,14 +76,41 @@ def remove_formation(request, formation_id):
 
 ##################################################################################################################
 
+# @api_view(['POST'])
+# def create_Inscrit(request):
+#     if request.method == 'POST':
+#         serializer = InscritSerializer(data=request.data)
+#         if serializer.is_valid():
+#             serializer.save()
+#             return Response(serializer.data, status=status.HTTP_201_CREATED)
+#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+# @api_view(['GET'])
+# @permission_classes([IsAuthenticated])  # Permet seulement aux utilisateurs authentifiés de lister les offres
+# def liste_Inscrits(request):
+#     inscrit = Inscrit.objects.all()  # Récupérer toutes les offres
+#     serializer = InscritSerializer(inscrit, many=True)  # Sérialiser les données
+#     return Response(serializer.data, status=status.HTTP_200_OK)
+    
+
+
 @api_view(['POST'])
+@permission_classes([IsAuthenticated])
 def create_Inscrit(request):
-    if request.method == 'POST':
-        serializer = InscritSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    user = request.user  # Récupérer l'utilisateur authentifié
+    formation_id = request.data.get('formation')  # Récupérer l'ID de la formation
+
+    # Vérifier si l'utilisateur est déjà inscrit
+    if Inscrit.objects.filter(user=user, formation_id=formation_id).exists():
+        return Response({'message': 'Vous êtes déjà inscrit à cette formation.'}, status=status.HTTP_400_BAD_REQUEST)
+
+    # Si l'utilisateur n'est pas inscrit, on enregistre
+    serializer = InscritSerializer(data={'user': user.id, 'formation': formation_id})
+    if serializer.is_valid():
+        serializer.save()
+        return Response({'message': 'Inscription réussie !'}, status=status.HTTP_201_CREATED)
+
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])  # Permet seulement aux utilisateurs authentifiés de lister les offres
@@ -91,7 +118,6 @@ def liste_Inscrits(request):
     inscrit = Inscrit.objects.all()  # Récupérer toutes les offres
     serializer = InscritSerializer(inscrit, many=True)  # Sérialiser les données
     return Response(serializer.data, status=status.HTTP_200_OK)
-
 ##################################################################################################################
 
 @api_view(['POST'])
