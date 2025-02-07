@@ -2,7 +2,7 @@ import datetime
 from django.db import models
 from datetime import date
 from Formation.models import Module
-from users.models import CustomUser
+from users.models import CustomUser, Profil_formateur
 
 
 class Formation(models.Model):
@@ -68,3 +68,10 @@ class Annonce(models.Model):
 
     def __str__(self):
         return self.titre
+
+
+class Donnee_seance(models.Model):
+    profil_formateur=models.ForeignKey(Profil_formateur, on_delete=models.CASCADE) 
+    seance=models.ForeignKey(Seance, on_delete=models.CASCADE) 
+    nombre_heure=models.IntegerField()
+    date_cours=models.DateField()

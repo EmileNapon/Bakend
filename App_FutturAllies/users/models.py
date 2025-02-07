@@ -1,6 +1,6 @@
 
 
-
+from django.contrib.auth import get_user_model
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from django.db import models
 
@@ -61,5 +61,9 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         return self.email
 
 
+
+class Profil_formateur(CustomUser):
+    Domaine_expertise=models.CharField(max_length=200, default='')
+    fonction=models.CharField(max_length=200, default='')
 
 
