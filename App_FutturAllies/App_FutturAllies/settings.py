@@ -35,6 +35,7 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -74,6 +75,7 @@ CORS_ALLOW_ALL_ORIGINS = True
 # DJREST_AUTH = {
 #     'TOKEN_MODEL': None,
 # }
+
 
 
 
