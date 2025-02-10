@@ -2,7 +2,7 @@ import datetime
 from django.db import models
 from datetime import date
 from Formation.models import Module
-from users.models import CustomUser, Profil_formateur
+from users.models import CustomUser
 
 
 class Formation(models.Model):
@@ -40,6 +40,16 @@ class ModuleFormation(models.Model):
     module = models.ForeignKey(Module, on_delete=models.CASCADE)  # Relation vers Module
     formation = models.ForeignKey(Formation, on_delete=models.CASCADE)  # Relation vers Formation
 
+
+
+class Encadrant(models.Model):
+    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, primary_key=True, default=1)
+    domaine_expertise = models.CharField(max_length=20, default='null')
+    fonction = models.CharField(max_length=50, default='null')
+
+    def __str__(self):
+        return f"{self.fonction} - {self.domaine_expertise}"
+
 class Seance(models.Model):
     lieu = models.CharField(max_length=200)  # Renommé en CharField pour la localisation
     date_formation = models.DateField(default=date(2024, 1, 20))
@@ -48,6 +58,9 @@ class Seance(models.Model):
     statut = models.CharField(max_length=10, choices=[('confirmé', 'confirmé'),('annulé', 'annulé'),('attente', 'attente')], default='attente')
     module = models.ForeignKey(Module, on_delete=models.CASCADE, default=1)  # Relation vers Module
     formation= models.ForeignKey(Formation, on_delete=models.CASCADE, default=1)  # Relation vers Module
+    encadrant=models.ForeignKey(Encadrant, on_delete=models.CASCADE, default=1)
+
+    
 class AffectationStage(models.Model):
     inscrit = models.ForeignKey(Inscrit, on_delete=models.CASCADE)  # Relation vers Inscrit
    ## offre = models.ForeignKey(Offre, on_delete=models.CASCADE, default=1)  # Relation vers Inscrit
@@ -70,8 +83,3 @@ class Annonce(models.Model):
         return self.titre
 
 
-class Donnee_seance(models.Model):
-    profil_formateur=models.ForeignKey(Profil_formateur, on_delete=models.CASCADE) 
-    seance=models.ForeignKey(Seance, on_delete=models.CASCADE) 
-    nombre_heure=models.IntegerField()
-    date_cours=models.DateField()

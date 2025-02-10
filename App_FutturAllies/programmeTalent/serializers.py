@@ -1,7 +1,7 @@
 
 from rest_framework import serializers
 
-from .models import Formation,  Inscrit, ModuleFormation, Group, AffectationStage, Seance
+from .models import Formation,  Inscrit, ModuleFormation, Group, AffectationStage, Seance, Encadrant
 
 class FormationSerializer(serializers.ModelSerializer):
     class Meta:
@@ -53,3 +53,8 @@ class AnnonceSerializer(serializers.ModelSerializer):
     class Meta:
         model = Annonce
         fields = '__all__'
+class EncadrantSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Encadrant
+        fields =  '__all__'
+    

@@ -67,3 +67,5 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
             return CustomUser.objects.get(email=email)
         except CustomUser.DoesNotExist:
             raise serializers.ValidationError("L'utilisateur avec cet email n'existe pas.")
+
+
