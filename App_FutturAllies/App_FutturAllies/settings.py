@@ -119,8 +119,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'fidalli_app',
-        'USER': 'fidalli',
-        'PASSWORD': 'fidalli012',
+        'USER': 'root',
+        'PASSWORD': '',
         'HOST': 'localhost',  
         'PORT': '3306',  
         'OPTIONS': {
@@ -197,11 +197,8 @@ REST_FRAMEWORK = {
     ],
 }
 
-# REST_FRAMEWORK = {
-#     'DEFAULT_PERMISSION_CLASSES': [
-#         'rest_framework.permissions.AllowAny',
-#     ],
-# }
-
-
-
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.AllowAny',
+    ],
+}

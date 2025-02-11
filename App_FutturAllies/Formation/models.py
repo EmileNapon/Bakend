@@ -1,6 +1,6 @@
 from django.db import models
 from users.models import CustomUser
-
+from django.utils.timezone import now
 
 
 class Domaine(models.Model):
@@ -62,8 +62,6 @@ class Audio(models.Model):
 
 ########################################################################################################
     ############################################################################################
-from django.db import models
-
 class Webinar(models.Model):
     FUTUR_ALLIES = 'FuturAllies'
     CAFE_DES_ALLIES = 'Café des allies'
@@ -75,25 +73,23 @@ class Webinar(models.Model):
         (FUTUR_ALLIES, 'Gratuit'),
         (CAFE_DES_ALLIES, 'Payant'),
     ]
-
-    _id = models.AutoField(primary_key=True)
-    title = models.CharField(max_length=200)
-    startDateTime=models.DateTimeField()
-    duree = models.CharField(max_length=20)
-    webinarUrl = models.URLField(blank=True)
+    
+    id = models.AutoField(primary_key=True)
+    title = models.CharField(max_length=200, null=True)
     description = models.TextField(null=True, blank=True)
-    maxParticipants = models.IntegerField()
-    registrationDeadline = models.DateTimeField()
-    price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
-    isPaid = models.BooleanField(default=False)
-    createdAt = models.DateTimeField(auto_now_add=True)
-    updatedAt = models.DateTimeField(auto_now=True)
-    format = models.CharField(max_length=20, choices=WEBINAR_FORMAT, default='Payant')
-    type = models.CharField(max_length=20, choices=WEBINAR_TYPES)
-
+    startDateTime = models.DateTimeField(null=True)  # Correction de la syntaxe
+    duree = models.CharField(max_length=20, null=True)
+    webinarUrl = models.URLField(blank=True, null=True)
+    maxParticipants = models.IntegerField(null=True)
+    price = models.DecimalField(max_digits=10, decimal_places=2, blank=True)
+    isPaid = models.BooleanField(default=False)  # Pas besoin de `null=True` ici
+    # format = models.CharField(max_length=20, choices=WEBINAR_FORMAT, default='Payant')  # Pas besoin de `null=True` ici
+    type = models.CharField(max_length=20, choices=WEBINAR_TYPES, null=True)
+    
+    updateDate = models.DateTimeField(auto_now=True, null=True)
+    
     def __str__(self):
         return self.title
-
 class WebinarEnrollment(models.Model):
     PAYMENT_STATUS_CHOICES = [
         ('paid', 'Paid'),

@@ -205,15 +205,23 @@ def get_webinar_detail(request, webinar_id):
     serializer = WebinarSerializer(webinar)
     return Response(serializer.data, status=status.HTTP_200_OK)
 
-# Création d'un webinaire (POST /fapi/webinars/create/)
+
+
+
 @api_view(['POST'])
-@permission_classes([IsAuthenticated])
+# @permission_classes([IsAuthenticated])
 def create_webinar(request):
-    serializer = WebinarSerializer(data=request.data)
-    if serializer.is_valid():
-        serializer.save()
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    try:
+        serializer = WebinarSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    except Exception as e:
+        return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+
 
 # Mise à jour d'un webinaire (PUT /fapi/webinars/<webinar_id>/update/)
 @api_view(['PUT'])
